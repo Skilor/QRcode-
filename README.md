@@ -5,58 +5,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>liens de site Web</title>
     <style>
+        /* الأسلوب الأساسي */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
             line-height: 1.6;
-            background-color: #f4f4f9; /* خلفية ثابتة بلون فاتح */
             position: relative;
+            transition: background-color 0.5s, color 0.5s; /* إضافة انتقال سلس */
+        }
+
+        /* الأوضاع */
+        body.light-mode {
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        body.dark-mode {
+            background-color: #121212;
+            color: #ffffff;
         }
 
         /* عرض الساعة والتاريخ في الأعلى */
         .header {
             display: flex;
             flex-direction: column;
-            align-items: center; /* تمركز النصوص أفقيًا */
+            align-items: center;
             padding: 10px 20px;
-            color: black; /* لون النص أسود */
+            transition: color 0.5s;
         }
 
         .clock, .date {
-            font-size: 24px; /* زيادة حجم الخط */
+            font-size: 24px;
             font-weight: bold;
-            margin: 5px 0; /* إضافة مسافة بين الساعة والتاريخ */
+            margin: 5px 0;
         }
 
-        /* نص GÉNIE ÉLECTRIQUE باللون الأزرق */
+        /* نص GÉNIE ÉLECTRIQUE */
         .footer-text {
             position: absolute;
             bottom: 10px;
             left: 10px;
             font-size: 14px;
-            color: #1C45E4; /* لون أزرق داكن */
             font-weight: bold;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            transition: color 0.5s;
         }
 
         /* تصميم container */
         .container {
             max-width: 600px;
             margin: 20px auto 0;
-            background: rgba(255, 255, 255, 0.9); /* خلفية شبه شفافة */
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.5s, box-shadow 0.5s;
+        }
+
+        body.light-mode .container {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        body.dark-mode .container {
+            background: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
         }
 
         h1 {
-            text-align: center;
-            color: #333333;
-        }
-
-        .link-item {
-            margin-bottom: 20px;
             text-align: center;
         }
 
@@ -66,11 +81,7 @@
             color: #ffffff;
             text-decoration: none;
             border-radius: 5px;
-            transition: transform 0.3s ease;
-        }
-
-        .link-item a:hover {
-            transform: scale(1.1);
+            transition: background-color 0.5s;
         }
 
         .myway {
@@ -88,9 +99,76 @@
         .ofppt {
             background-color: #1C45E4;
         }
+
+        /* زر تبديل الوضع (دائرة) */
+        .toggle-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 50%; /* دائرة */
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        body.light-mode .toggle-button {
+            background-color: #1C45E4;
+            color: #fff;
+        }
+
+        body.dark-mode .toggle-button {
+            background-color: #ffffff;
+            color: #1C45E4;
+        }
+
+        /* تمركز الروابط في الوسط */
+        .link-item {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        /* استهداف الهواتف */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 5px 10px;
+            }
+
+            .clock, .date {
+                font-size: 18px;
+            }
+
+            .container {
+                max-width: 100%;
+                padding: 15px;
+            }
+
+            .link-item a {
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+
+            .toggle-button {
+                width: 35px;
+                height: 35px;
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
-<body>
+<body class="light-mode">
+    <!-- زر تبديل الوضع (دائرة) -->
+    <button id="toggleMode" class="toggle-button">☀️</button>
+
     <!-- عرض الساعة والتاريخ في الأعلى -->
     <div class="header">
         <div id="clock" class="clock"></div>
@@ -130,6 +208,22 @@
 
         // بدء العرض عند تحميل الصفحة
         updateDateTime();
+
+        // تبديل الوضع بين Dark mode و Light mode
+        const toggleButton = document.getElementById('toggleMode');
+        const body = document.body;
+
+        toggleButton.addEventListener('click', () => {
+            if (body.classList.contains('light-mode')) {
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+                toggleButton.textContent = '🌙'; // رمز للوضع الليلي
+            } else {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+                toggleButton.textContent = '☀️'; // رمز للوضع النهاري
+            }
+        });
     </script>
 </body>
 </html>
